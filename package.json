@@ -1,0 +1,41 @@
+{
+  "name": "hizli-ticket",
+  "productName": "Hizli Ticket",
+  "version": "1.6.0",
+  "description": "Quick ticket creator for ManageEngine ServiceDesk Plus (Windows, macOS, Android)",
+  "main": "desktop/main.js",
+  "author": "Hızlı Ticket contributors",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "io.github.hizliticket",
+    "productName": "Hizli Ticket",
+    "artifactName": "HizliTicket-${version}-${os}-${arch}.${ext}",
+    "files": ["desktop/**", "www/**", "build/icon.png", "package.json"],
+    "directories": { "output": "dist", "buildResources": "build" },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "build/icon.png",
+      "target": [{ "target": "dmg", "arch": ["universal"] }, { "target": "zip", "arch": ["universal"] }],
+      "identity": null
+    },
+    "afterPack": "build/adhoc-sign.js",
+    "dmg": { "title": "Hizli Ticket ${version}" },
+    "win": {
+      "icon": "build/icon.png",
+      "target": [{ "target": "nsis", "arch": ["x64"] }, { "target": "portable", "arch": ["x64"] }]
+    },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "artifactName": "HizliTicket-${version}-Setup.${ext}" },
+    "portable": { "artifactName": "HizliTicket-${version}-Portable.${ext}" },
+    "linux": { "target": ["AppImage"], "category": "Office", "icon": "build/icon.png" }
+  }
+}

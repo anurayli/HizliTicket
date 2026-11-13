@@ -1,0 +1,45 @@
+plugins { id "com.android.application" }
+
+def pkg = new groovy.json.JsonSlurper().parse(file("../../package.json"))
+def surum = pkg.version
+def parca = surum.tokenize('.').collect { it as int }
+
+android {
+    namespace "io.github.hizliticket"
+    compileSdk 34
+    defaultConfig {
+        applicationId "io.github.hizliticket"
+        minSdk 24
+        targetSdk 34
+        versionName surum
+        versionCode parca[0] * 10000 + parca[1] * 100 + parca[2]
+    }
+    signingConfigs {
+        release {
+            def ks = System.getenv("ANDROID_KEYSTORE_PATH")
+            if (ks) {
+                storeFile file(ks)
+                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig System.getenv("ANDROID_KEYSTORE_PATH") ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+// Ortak arayuzu (../../www) APK'nin icine kopyala
+tasks.register("wwwKopyala", Copy) {
+    from "../../www"
+    into "src/main/assets/www"
+}
+preBuild.dependsOn "wwwKopyala"

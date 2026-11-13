@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src *; img-src 'self' data:">
+  <title>Hızlı Ticket</title>
+  <link rel="stylesheet" href="css/stil.css">
+</head>
+<body>
+  <header class="ust">
+    <div class="marka">Hızlı Ticket</div>
+    <nav class="sekmeler" role="tablist">
+      <button class="sekme aktif" data-sekme="yeni" role="tab">Yeni</button>
+      <button class="sekme" data-sekme="gecmis" role="tab">Geçmiş</button>
+      <button class="sekme" data-sekme="ayarlar" role="tab">Ayarlar</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- YENI -->
+    <section id="yeni" class="panel aktif">
+      <div id="ayarUyari" class="uyari gizli">Önce <a href="#" data-git="ayarlar">Ayarlar</a> bölümünden API anahtarını ve teknisyen bilgisini girin.</div>
+      <label class="etiket" for="metin">Ne yapıldı? Virgülle ayırdıklarınız ayrı ticket olur.</label>
+      <div class="metin-kap">
+      <textarea id="metin" rows="4" placeholder="örnek: ayilmaz smartboard kalibrasyon, bkaya wifi bağlantı sorunu, 7a,7b ipad mdm kurulumu kullanıcı olarak cdemir"></textarea>
+      <button id="sesBtn" class="ses gizli" type="button" title="Sesle yaz" aria-label="Sesle yaz">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/></svg>
+      </button>
+      </div>
+      <p id="sesIpucu" class="ipucu gizli">Sesle yazmak için Windows'ta Win+H tuşlarına basın.</p>
+      <div id="hizliDugmeler" class="cipler"></div>
+      <div class="satir">
+        <button id="cozumle" class="birincil">Ticket aç</button>
+        <button id="bosEkle" class="ikincil">Boş ticket ekle</button>
+        <button id="temizle" class="metin-btn">Temizle</button>
+      </div>
+      <div id="durum" class="durum"></div>
+      <div id="onizleme"></div>
+      <div id="gonderAlani" class="gonder gizli">
+        <button id="gonder" class="birincil buyuk">Gönder</button>
+      </div>
+    </section>
+
+    <!-- GECMIS -->
+    <section id="gecmis" class="panel">
+      <div class="satir">
+        <button id="sunucudanYukle" class="ikincil">Sunucudan son ticket'lar</button>
+        <button id="gecmisSil" class="metin-btn">Yerel geçmişi temizle</button>
+      </div>
+      <div class="kart">
+        <div class="satir donemler">
+          <button class="donem ikincil" data-gun="1">Bugün</button>
+          <button class="donem ikincil aktif" data-gun="7">Son 7 gün</button>
+          <button class="donem ikincil" data-gun="30">Son 30 gün</button>
+          <button class="donem ikincil" data-gun="0">Tümü</button>
+        </div>
+        <div id="ozet"></div>
+        <p class="ipucu">Özet bu cihazdan açılan ticket'lara göre hazırlanır.</p>
+      </div>
+      <div id="gecmisListe"></div>
+    </section>
+
+    <!-- AYARLAR -->
+    <section id="ayarlar" class="panel">
+      <div class="kart">
+        <label class="etiket" for="aDil">Dil / Language</label>
+        <select id="aDil" data-cevirme>
+          <option value="tr">Türkçe</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      <div class="kart">
+        <label class="etiket" for="aUrl">ServiceDesk adresi</label>
+        <input id="aUrl" type="url" placeholder="https://servicedesk.kurumunuz.com">
+        <label class="etiket" for="aKey">API anahtarı</label>
+        <input id="aKey" type="password" autocomplete="off" placeholder="SDP profil menüsünden oluşturulan anahtar">
+        <p class="ipucu">Anahtar yalnızca bu cihazda saklanır. Yeni anahtar oluşturmak eskisini geçersiz kılabilir; mevcut anahtarınızı kullanın.</p>
+        <div class="satir">
+          <button id="testEt" class="ikincil">Bağlantıyı test et</button>
+          <span id="testSonuc" class="kucuk"></span>
+        </div>
+      </div>
+
+      <div class="kart">
+        <label class="etiket" for="aTekAra">Teknisyen (ticket'lar size atanır)</label>
+        <div class="satir">
+          <input id="aTekAra" placeholder="Adınız veya soyadınız">
+          <button id="tekAra" class="ikincil">Ara</button>
+        </div>
+        <div id="tekSonuc"></div>
+        <div class="iki">
+          <div>
+            <label class="etiket" for="aTekId">Teknisyen ID</label>
+            <input id="aTekId" inputmode="numeric">
+          </div>
+          <div>
+            <label class="etiket" for="aGrup">Grup ID</label>
+            <input id="aGrup" inputmode="numeric" placeholder="(isteğe bağlı)">
+          </div>
+        </div>
+      </div>
+
+      <div class="kart">
+        <label class="etiket" for="aAlan">Kayıtsız kullanıcılar için e-posta alan adı</label>
+        <input id="aAlan" placeholder="kurumunuz.com">
+        <label class="onay masaustu-ozel"><input id="aSsl" type="checkbox"> SSL sertifika doğrulamasını kapat</label>
+        <label class="onay"><input id="aOtomatik" type="checkbox" checked> Yazdığımı çözümleyip ticket'ları otomatik aç</label>
+        <label class="onay"><input id="aOnay" type="checkbox"> Göndermeden önce her zaman sor</label>
+        <label class="etiket" for="aHizli">Hızlı düğmeler (virgülle ayırın)</label>
+        <textarea id="aHizli" rows="3"></textarea>
+        <label class="etiket" for="aVarsayilanKat">Kategori bulunamazsa kullanılacak kategori</label>
+        <select id="aVarsayilanKat"></select>
+      </div>
+      <div class="kart">
+        <label class="etiket">Kategoriler</label>
+        <p class="ipucu">SDP'deki kategorileri ve son ticket'larınızda seçtiğiniz kategorileri öğrenir. Kartta kategoriyi elle düzelttiğinizde de uygulama bunu hatırlar, bir dahaki sefere kendisi seçer.</p>
+        <div class="satir">
+          <button id="katOgren" class="ikincil">Kategorileri SDP'den öğren</button>
+          <button id="ogrenSifirla" class="metin-btn">Öğrenilenleri sıfırla</button>
+        </div>
+        <p id="katSonuc" class="kucuk"></p>
+      </div>
+      <div class="satir">
+        <button id="kaydet" class="birincil">Kaydet</button>
+        <span id="kaydetSonuc" class="kucuk"></span>
+      </div>
+      <p class="ipucu surum">Hızlı Ticket 1.6 · <span id="platformAdi"></span></p>
+    </section>
+  </main>
+
+  <template id="ticketSablon">
+    <article class="ticket">
+      <div class="t-ust">
+        <span class="t-no"></span>
+        <span class="rozet"></span>
+        <button class="sil" title="Kaldır" aria-label="Kaldır">×</button>
+      </div>
+      <label class="etiket">Talep sahibi</label>
+      <div class="kisi">
+        <input class="t-kisi" placeholder="kullanıcı adı, e-posta veya ad soyad">
+        <div class="kisi-ad"></div>
+        <div class="oneriler"></div>
+      </div>
+      <label class="etiket">Kategori</label>
+      <select class="t-kat"></select>
+      <div class="oge-alani gizli">
+        <label class="etiket">Öğe</label>
+        <select class="t-oge"></select>
+      </div>
+      <label class="etiket">Konu</label>
+      <input class="t-konu">
+      <details>
+        <summary>Açıklama ve çözüm</summary>
+        <label class="etiket">Açıklama</label>
+        <textarea class="t-aciklama" rows="2"></textarea>
+        <label class="etiket">Çözüm</label>
+        <textarea class="t-cozum" rows="2"></textarea>
+      </details>
+      <div class="t-ozet"></div>
+      <div class="t-sonuc"></div>
+    </article>
+  </template>
+
+  <script src="js/dil.js"></script>
+  <script src="js/kategoriler.js"></script>
+  <script src="js/cozumleyici.js"></script>
+  <script src="js/sdp.js"></script>
+  <script src="js/platform.js"></script>
+  <script src="js/uygulama.js"></script>
+</body>
+</html>
