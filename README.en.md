@@ -57,7 +57,7 @@ All files are on the **[Releases](../../releases/latest)** page.
 | Platform | File | Notes |
 |---|---|---|
 | **Windows** | `HizliTicket-x.y.z-Setup.exe` | Installer. Use `…-Portable.exe` to run without installing. On a SmartScreen warning choose *More info → Run anyway*. |
-| **macOS** (Intel + Apple Silicon) | `HizliTicket-x.y.z-mac-universal.dmg` | Open the DMG and drag the app to *Applications*. See the note below for the first launch. |
+| **macOS** (Intel + Apple Silicon) | `HizliTicket-x.y.z-mac-arm64.dmg` (M1/M2/M3/M4) or `…-mac-x64.dmg` (Intel) | Open the DMG and drag the app to *Applications*. See the note below for the first launch. |
 | **Android** (7.0+) | `HizliTicket-x.y.z-android.apk` | Open it on the phone; you may need to allow installs from unknown sources. |
 
 > **macOS first launch:** the app is not signed with an Apple developer certificate, so the first time *right-click the app in Finder → Open → Open*. If macOS says the app is "damaged", run this once in Terminal:

@@ -57,7 +57,7 @@ Tüm dosyalar **[Releases](../../releases/latest)** sayfasındadır.
 | Platform | Dosya | Not |
 |---|---|---|
 | **Windows** | `HizliTicket-x.y.z-Setup.exe` | Kurulum sihirbazı. Kurulumsuz kullanım için `…-Portable.exe`. SmartScreen uyarısında *Ek bilgi → Yine de çalıştır*. |
-| **macOS** (Intel + Apple Silicon) | `HizliTicket-x.y.z-mac-universal.dmg` | DMG'yi açıp uygulamayı *Applications*'a sürükleyin. İlk açılışta aşağıdaki nota bakın. |
+| **macOS** (Intel + Apple Silicon) | `HizliTicket-x.y.z-mac-arm64.dmg` (M1/M2/M3/M4) veya `…-mac-x64.dmg` (Intel) | DMG'yi açıp uygulamayı *Applications*'a sürükleyin. İlk açılışta aşağıdaki nota bakın. |
 | **Android** (7.0+) | `HizliTicket-x.y.z-android.apk` | Telefonda açın; "bilinmeyen kaynaklardan yükleme" izni isteyebilir. |
 
 > **macOS ilk açılış:** Uygulama Apple geliştirici sertifikasıyla imzalı olmadığı için ilk seferde *Finder'da uygulamaya sağ tık → Aç → Aç* deyin. "Hasarlı" uyarısı alırsanız Terminal'de bir kez şunu çalıştırın:
